@@ -18,10 +18,7 @@ const routes: Routes = [
       { path: 'page2', component: Page2Component },
       {
         path: 'utilities',
-        children: [
-          { path: 'colors/:type', component: ColorsComponent },
-          { path: 'colors', component: ColorsComponent }
-        ]
+        loadChildren: () => import('./utilities/utilities.module').then(m => m.UtilitiesModule)
       },
     ]
   },
