@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { chartAreaDemo } from '../chartAreaDemo';
 import { chartPieDemo } from '../chartPieDemo';
 
@@ -7,12 +8,23 @@ import { chartPieDemo } from '../chartPieDemo';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  init_type = 333;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     chartAreaDemo();
     chartPieDemo();
   }
 
+  gotoColors(type: number, name: string) {
+    this.router.navigateByUrl(`/utilities/colors/${type}?name=${name}`);
+  }
+
+  gotoColors2(type: number, name: string) {
+    this.router.navigate(['/utilities/colors', type], {
+      queryParamsHandling: 'merge',
+      queryParams: { name }
+    });
+  }
 }

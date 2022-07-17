@@ -1,4 +1,8 @@
-<h1 class="h3 mb-1 text-gray-800">Color Utilities</h1>
+<h1 class="h3 mb-1 text-gray-800">
+  Color Utilities
+  <button class="btn btn-danger ml-2" (click)="inc(-1)">-</button>
+  <button class="btn btn-success ml-2" (click)="inc(1)">+</button>
+</h1>
 <p class="mb-4">
   Bootstrap's default utility classes can be found on the official
   <a href="https://getbootstrap.com/docs">Bootstrap Documentation</a> page. The
@@ -14,7 +18,7 @@
     <div class="card shadow mb-4">
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-          Custom Text Color Utilities
+          Type: {{type}}, Name: {{name}}
         </h6>
       </div>
       <div class="card-body">
