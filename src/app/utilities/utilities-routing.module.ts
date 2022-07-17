@@ -7,6 +7,7 @@ const routes: Routes = [
     path: 'colors/:type',
     component: ColorsComponent,
   },
+  { path: 'colors', component: ColorsComponent },
 ];
 
 @NgModule({

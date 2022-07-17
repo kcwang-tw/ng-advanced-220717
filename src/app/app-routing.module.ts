@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
 import { Page1Component } from './page1/page1.component';
 import { Page2Component } from './page2/page2.component';
-import { ColorsComponent } from './utilities/colors/colors.component';
 
 const routes: Routes = [
   {
@@ -18,6 +18,7 @@ const routes: Routes = [
       { path: 'page2', component: Page2Component },
       {
         path: 'utilities',
+        canActivate: [AuthGuard],
         loadChildren: () => import('./utilities/utilities.module').then(m => m.UtilitiesModule)
       },
     ]
