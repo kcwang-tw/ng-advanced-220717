@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -11,25 +11,44 @@ export class Login2Component implements OnInit, OnDestroy {
   data = {
     email: 'test@123',
     password: '12345',
-    isRememberMe: true,
-    tab1: {
-      addr: '',
-      zip: ''
-    }
+    isRememberMe: true
   };
 
   orig_body_className = document.body.className;
 
-  form = this.fb.group(this.data);
+  form = this.fb.group({
+    email: this.fb.control('', {
+      validators: [
+        Validators.required,
+        Validators.email
+      ]
+    }),
+    password: this.fb.control('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(6)
+      ]
+    }),
+    isRememberMe: this.fb.control(true, {
+    }),
+  });
 
   constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     document.body.className = 'bg-gradient-primary';
+
+    setTimeout(() => {
+      this.form.setValue(this.data);
+    }, 2000);
   }
 
   ngOnDestroy(): void {
     document.body.className = this.orig_body_className;
+  }
+
+  reset() {
+    this.form.reset(this.data);
   }
 
 }
