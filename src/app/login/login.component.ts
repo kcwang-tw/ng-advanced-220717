@@ -6,6 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  data: any = {
+    email: '',
+    password: '',
+    isRememberMe: true
+  }
+
   orgin_body_class = document.body.className;
 
   constructor(private router: Router, private route: ActivatedRoute) { }
@@ -19,6 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
+    console.log(this.data);
     localStorage.setItem('apikey', '12345');
     const url = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
     this.router.navigateByUrl(url);
