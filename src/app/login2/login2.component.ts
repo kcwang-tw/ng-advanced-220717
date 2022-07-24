@@ -11,7 +11,10 @@ export class Login2Component implements OnInit, OnDestroy {
   data = {
     email: 'test@123',
     password: '12345',
-    isRememberMe: true
+    isRememberMe: true,
+    profiles: [
+
+    ]
   };
 
   orig_body_className = document.body.className;
@@ -31,6 +34,10 @@ export class Login2Component implements OnInit, OnDestroy {
     }),
     isRememberMe: this.fb.control(true, {
     }),
+    profiles: this.fb.array([
+      this.makeProfile('Taipei', '0912345678'),
+      this.makeProfile('New Taipei', '0987654321'),
+    ])
   });
 
   constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder) {}
@@ -39,7 +46,7 @@ export class Login2Component implements OnInit, OnDestroy {
     document.body.className = 'bg-gradient-primary';
 
     setTimeout(() => {
-      this.form.setValue(this.data);
+      this.form.patchValue(this.data);
     }, 2000);
   }
 
@@ -51,4 +58,23 @@ export class Login2Component implements OnInit, OnDestroy {
     this.form.reset(this.data);
   }
 
+  makeProfile(city: string, tel: string) {
+    return this.fb.group({
+      city: this.fb.control(city, {
+        validators: [
+          Validators.required
+        ]
+      }),
+      tel: this.fb.control(tel, {
+        validators: [
+          Validators.required
+        ]
+      })
+    });
+  }
+
+  addProfile() {
+    const profiles = this.form.controls.profiles;
+    profiles.push(this.makeProfile('', ''));
+  }
 }
