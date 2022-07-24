@@ -1,6 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
+function forbiddenPassword(control: AbstractControl) {
+  if (!control.value) {
+    return null;
+  }
+
+  const forbidden = ['123', 'password'];
+  var result = forbidden.some(x => control.value.toLowerCase().indexOf(x) >= 0);
+  return result ? { forbiddenPassword: { value: control.value } } : null;
+}
 
 @Component({
   selector: 'app-login2',
@@ -13,7 +23,14 @@ export class Login2Component implements OnInit, OnDestroy {
     password: '12345',
     isRememberMe: true,
     profiles: [
-
+      {
+        city: 'Taipei',
+        tel: '0912345678'
+      },
+      {
+        city: 'New Taipei',
+        tel: '0987654321'
+      }
     ]
   };
 
@@ -29,15 +46,16 @@ export class Login2Component implements OnInit, OnDestroy {
     password: this.fb.control('', {
       validators: [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(6),
+        forbiddenPassword
       ]
     }),
     isRememberMe: this.fb.control(true, {
     }),
     profiles: this.fb.array([
-      this.makeProfile('Taipei', '0912345678'),
-      this.makeProfile('New Taipei', '0987654321'),
-    ])
+      this.makeProfile('Taipei', '0988-888888'),
+      this.makeProfile('台中', '0944-444444'),
+    ]),
   });
 
   constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder) {}
@@ -46,7 +64,11 @@ export class Login2Component implements OnInit, OnDestroy {
     document.body.className = 'bg-gradient-primary';
 
     setTimeout(() => {
-      this.form.patchValue(this.data);
+      this.form.controls.profiles.clear();
+      this.data.profiles.forEach(profile => {
+        this.form.controls.profiles.push(this.makeProfile(profile.city, profile.tel));
+      });
+      this.form.setValue(this.data);
     }, 2000);
   }
 

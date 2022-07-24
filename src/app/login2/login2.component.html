@@ -62,7 +62,7 @@ form.controls.email.errors = {{ form.controls.email.errors | json }}
 
                   <h1>Profiles</h1>
 
-                  <ng-container formArrayName="profiles">
+                  <ng-container formArray="profiles">
 
                     <ng-container *ngFor="let profile of form.controls.profiles.controls; let i=index" [formGroupName]="i">
 
